@@ -13,6 +13,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL
 Group:		Base/Kernel
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
+# Source0-md5:	5070f941e6b409906b82368060e1d5f3
 Patch0:		%{_orig_name}-gpl.patch
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
