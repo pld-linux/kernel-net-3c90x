@@ -8,7 +8,7 @@ Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards
 Summary(pl):	Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
 Name:		kernel-net-%{_orig_name}
 Version:	1.0.2
-%define	_rel	9
+%define	_rel	10
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL
 Group:		Base/Kernel
