@@ -17,7 +17,7 @@ Group:		Base/Kernel
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
-BuildRequires:	%{kgcc}
+BuildRequires:	%{kgcc_package}
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
