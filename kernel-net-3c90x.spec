@@ -2,8 +2,6 @@
 # conditional build
 # _without_dist_kernel          without distribution kernel
 
-%define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
-%define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	3c90x
 %define		_rel		3
 
@@ -18,7 +16,6 @@ Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
 BuildRequires:	%{kgcc_package}
-Obsoletes:	kernel-smp-net-%{_orig_name}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -37,7 +34,6 @@ Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_smp}
-Obsoletes:	kernel-net-%{_orig_name}
 
 %description -n kernel-smp-net-%{_orig_name}
 This is 3Com's EtherLink PCI driver for Linux SMP. It provides support
