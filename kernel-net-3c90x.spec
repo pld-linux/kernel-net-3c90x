@@ -1,0 +1,120 @@
+
+# conditional build
+# _without_dist_kernel          without distribution kernel
+
+%define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
+%define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
+%define		_orig_name	3c90x
+%define		_rel		1
+
+Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards.
+Summary(pl):	Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+Name:		kernel-net-%{_orig_name}
+Version:	1.0.2
+Release:	%{_rel}@%{_kernel_ver_str}
+License:	GPL
+Group:		Base/Kernel
+Group(cs):	Základ/Jádro
+Group(da):	Basal/Kerne
+Group(de):	Grundsätzlich/Kern
+Group(es):	Base/Núcleo
+Group(fr):	Base/Noyau
+Group(is):	Grunnforrit/Kjarninn
+Group(it):	Base/Kernel
+Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
+Group(no):	Basis/Kjerne
+Group(pl):	Podstawowe/J±dro
+Group(pt):	Base/Núcleo
+Group(ru):	âÁÚÁ/ñÄÒÏ
+Group(sl):	Osnova/Jedro
+Group(sv):	Bas/Kärna
+Group(uk):	âÁÚÁ/ñÄÒÏ
+Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
+URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
+%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+Obsoletes:	kernel-smp-net-%{_orig_name}
+Prereq:		/sbin/depmod
+%{!?_without_dist_kernel:Conflicts:	kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
+%{!?_without_dist_kernel:Conflicts:	kernel-smp}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%description
+This is 3Com's EtherLink PCI driver for Linux. It provides support for
+the 3c90x and 3c980 network adapters listed here:
+
+%description -l pl
+Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+
+%package -n kernel-smp-net-%{_orig_name}
+Summary:	Linux SMP driver for the 3Com 3C90x i 3C980 Network Interface Cards.
+Summary(pl):	Sterownik dla Linuxa SMP dla kart sieciowych 3Com 3C90x i 3C980.
+Release:	%{_rel}@%{_kernel_ver_str}
+%{!?_without_dist_kernel:Conflicts:     kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
+%{!?_without_dist_kernel:Conflicts:     kernel-up}
+Obsoletes:	kernel-net-%{_orig_name}
+Group:		Base/Kernel
+Group(cs):	Základ/Jádro
+Group(da):	Basal/Kerne
+Group(de):	Grundsätzlich/Kern
+Group(es):	Base/Núcleo
+Group(fr):	Base/Noyau
+Group(is):	Grunnforrit/Kjarninn
+Group(it):	Base/Kernel
+Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
+Group(no):	Basis/Kjerne
+Group(pl):	Podstawowe/J±dro
+Group(pt):	Base/Núcleo
+Group(ru):	âÁÚÁ/ñÄÒÏ
+Group(sl):	Osnova/Jedro
+Group(sv):	Bas/Kärna
+Group(uk):	âÁÚÁ/ñÄÒÏ
+
+%description -n kernel-smp-net-%{_orig_name}
+This is 3Com's EtherLink PCI driver for Linux. It provides support for
+the 3c90x and 3c980 network adapters listed here:
+
+%description -n kernel-smp-net-%{_orig_name} -l pl
+Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+
+%prep
+%setup -q -n %{_orig_name}-%(echo %{version} | sed -e 's#\.##g')
+
+%build
+rm -f %{_orig_name}.o
+kgcc -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -DSMP=1 -D__SMP__ -DCONFIG_X86_LOCAL_APIC -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+mv %{_orig_name}.o %{_orig_name}-smp.o
+kgcc -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+
+%install
+rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net
+install %{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net/%{_orig_name}.o
+install %{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net/%{_orig_name}.o
+
+gzip -9nf readme
+
+%clean 
+rm -rf $RPM_BUILD_ROOT
+
+%post
+/sbin/depmod -a
+
+%postun
+/sbin/depmod -a
+
+%post -n kernel-smp-net-%{_orig_name}
+/sbin/depmod -a
+
+%postun -n kernel-smp-net-%{_orig_name}
+/sbin/depmod -a
+
+%files
+%defattr(644,root,root,755)
+%doc *.gz
+/lib/modules/%{_kernel_ver}/net/*
+
+%files -n kernel-smp-net-%{_orig_name}
+%defattr(644,root,root,755)
+%doc *.gz 
+/lib/modules/%{_kernel_ver}smp/net/*
