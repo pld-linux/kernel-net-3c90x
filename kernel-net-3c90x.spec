@@ -7,8 +7,8 @@
 %define		_orig_name	3c90x
 %define		_rel		1
 
-Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards.
-Summary(pl):	Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards
+Summary(pl):	Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
 Name:		kernel-net-%{_orig_name}
 Version:	1.0.2
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -32,6 +32,7 @@ Group(uk):	‚¡⁄¡/Òƒ“œ
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+BuildRequires:	egcs
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:Conflicts:	kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
@@ -40,14 +41,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This is 3Com's EtherLink PCI driver for Linux. It provides support for
-the 3c90x and 3c980 network adapters listed here:
+the 3c90x and 3c980 network adapters.
 
 %description -l pl
-Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980.
 
 %package -n kernel-smp-net-%{_orig_name}
-Summary:	Linux SMP driver for the 3Com 3C90x i 3C980 Network Interface Cards.
-Summary(pl):	Sterownik dla Linuxa SMP dla kart sieciowych 3Com 3C90x i 3C980.
+Summary:	Linux SMP driver for the 3Com 3C90x i 3C980 Network Interface Cards
+Summary(pl):	Sterownik dla Linuksa SMP do kart sieciowych 3Com 3C90x i 3C980
 Release:	%{_rel}@%{_kernel_ver_str}
 %{!?_without_dist_kernel:Conflicts:     kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
 %{!?_without_dist_kernel:Conflicts:     kernel-up}
@@ -70,11 +71,11 @@ Group(sv):	Bas/K‰rna
 Group(uk):	‚¡⁄¡/Òƒ“œ
 
 %description -n kernel-smp-net-%{_orig_name}
-This is 3Com's EtherLink PCI driver for Linux. It provides support for
-the 3c90x and 3c980 network adapters listed here:
+This is 3Com's EtherLink PCI driver for Linux SMP. It provides support
+for the 3c90x and 3c980 network adapters.
 
 %description -n kernel-smp-net-%{_orig_name} -l pl
-Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
+Sterownik dla Linuksa SMP do kart sieciowych 3Com 3C90x i 3C980.
 
 %prep
 %setup -q -n %{_orig_name}-%(echo %{version} | sed -e 's#\.##g')
@@ -82,7 +83,7 @@ Sterownik dla Linuxa dla kart sieciowych 3Com 3C90x i 3C980.
 %build
 rm -f %{_orig_name}.o
 kgcc -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -DSMP=1 -D__SMP__ -DCONFIG_X86_LOCAL_APIC -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
-mv %{_orig_name}.o %{_orig_name}-smp.o
+mv -f %{_orig_name}.o %{_orig_name}-smp.o
 kgcc -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
 
 %install
