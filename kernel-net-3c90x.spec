@@ -5,7 +5,7 @@
 %define		_kernel_ver	%(grep UTS_RELEASE %{_kernelsrcdir}/include/linux/version.h 2>/dev/null | cut -d'"' -f2)
 %define		_kernel_ver_str	%(echo %{_kernel_ver} | sed s/-/_/g)
 %define		_orig_name	3c90x
-%define		_rel		1
+%define		_rel		2
 
 Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards
 Summary(pl):	Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
@@ -35,7 +35,7 @@ URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 BuildRequires:	egcs
 Obsoletes:	kernel-smp-net-%{_orig_name}
 Prereq:		/sbin/depmod
-%{!?_without_dist_kernel:Conflicts:	kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
+%{!?_without_dist_kernel:%(rpm -q --queryformat "Requires: kernel = %{VERSION}-%{RELEASE}\n" kernel-headers)}
 %{!?_without_dist_kernel:Conflicts:	kernel-smp}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -50,7 +50,7 @@ Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980.
 Summary:	Linux SMP driver for the 3Com 3C90x i 3C980 Network Interface Cards
 Summary(pl):	Sterownik dla Linuksa SMP do kart sieciowych 3Com 3C90x i 3C980
 Release:	%{_rel}@%{_kernel_ver_str}
-%{!?_without_dist_kernel:Conflicts:     kernel < %{_kernel_ver}, kernel > %{_kernel_ver}}
+%{!?_without_dist_kernel:%(rpm -q --queryformat "Requires: kernel = %{VERSION}-%{RELEASE}\n" kernel-headers)}
 %{!?_without_dist_kernel:Conflicts:     kernel-up}
 Obsoletes:	kernel-net-%{_orig_name}
 Group:		Base/Kernel
