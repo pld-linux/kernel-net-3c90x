@@ -13,6 +13,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL
 Group:		Base/Kernel
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
+Patch0:		%{_orig_name}-gpl.patch
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
 BuildRequires:	%{kgcc_package}
@@ -44,12 +45,19 @@ Sterownik dla Linuksa SMP do kart sieciowych 3Com 3c90x i 3c980.
 
 %prep
 %setup -q -n %{_orig_name}-%(echo %{version} | sed -e 's#\.##g')
+%patch0 -p1
 
 %build
 rm -f %{_orig_name}.o
-%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -DSMP=1 -D__SMP__ -DCONFIG_X86_LOCAL_APIC -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ \
+    -O2 -DSMP=1 -D__SMP__ \
+%ifarch %{ix86}
+    -DCONFIG_X86_LOCAL_APIC \
+%endif
+    -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include -DDEBUG %{_orig_name}.c
+
 mv -f %{_orig_name}.o %{_orig_name}-smp.o
-%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -DDEBUG -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -57,8 +65,6 @@ install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install %{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
 install %{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
-
-gzip -9nf readme
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -77,10 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc readme
 /lib/modules/%{_kernel_ver}/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
-%doc *.gz 
+%doc readme
 /lib/modules/%{_kernel_ver}smp/misc/*
