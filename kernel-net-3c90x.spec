@@ -16,7 +16,7 @@ Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %
 # Source0-md5:	5070f941e6b409906b82368060e1d5f3
 Patch0:		%{_orig_name}-gpl.patch
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
-%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+%{!?_without_dist_kernel:BuildRequires:	kernel-headers }
 BuildRequires:	%{kgcc_package}
 BuildRequires:	rpmbuild(macros) >= 1.118
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
@@ -68,7 +68,7 @@ install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
 install %{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
 install %{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
 
-%clean 
+%clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
