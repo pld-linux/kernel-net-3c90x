@@ -1,0 +1,14 @@
+diff -uNr 3c90x-102.orig/3c90x.c 3c90x-102/3c90x.c
+--- 3c90x-102.orig/3c90x.c	Fri Aug 17 18:51:54 2001
++++ 3c90x-102/3c90x.c	Sun Sep 29 10:28:09 2002
+@@ -111,8 +111,8 @@
+ #ifdef DEBUG
+ MODULE_PARM(debug, "i");
+ #endif
+-
+-
++MODULE_LICENSE("GPL");
++
+ MODULE_PARM(switchdelay, "1-" __MODULE_STRING(MAX_UNITS) "i");
+ MODULE_PARM(downpoll, "1-" __MODULE_STRING(MAX_UNITS) "i");
+ MODULE_PARM(flowcontrol, "1-" __MODULE_STRING(MAX_UNITS) "i");
