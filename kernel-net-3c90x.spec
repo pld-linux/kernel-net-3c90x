@@ -87,10 +87,10 @@ kgcc -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -Wall -Wst
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net
-install %{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/net/%{_orig_name}.o
-install %{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/net/%{_orig_name}.o
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc
+install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc
+install %{_orig_name}-smp.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/misc/%{_orig_name}.o
+install %{_orig_name}.o $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/misc/%{_orig_name}.o
 
 gzip -9nf readme
 
@@ -112,9 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc *.gz
-/lib/modules/%{_kernel_ver}/net/*
+/lib/modules/%{_kernel_ver}/misc/*
 
 %files -n kernel-smp-net-%{_orig_name}
 %defattr(644,root,root,755)
 %doc *.gz 
-/lib/modules/%{_kernel_ver}smp/net/*
+/lib/modules/%{_kernel_ver}smp/misc/*
