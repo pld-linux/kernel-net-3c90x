@@ -1,6 +1,6 @@
 
 # conditional build
-# _without_dist_kernel          without distribution kernel
+# _without_dist_kernel		without distribution kernel
 
 %define		_orig_name	3c90x
 
@@ -8,15 +8,16 @@ Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards
 Summary(pl):	Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
 Name:		kernel-net-%{_orig_name}
 Version:	1.0.2
-%define	_rel	10
+%define	_rel	11
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL
 Group:		Base/Kernel
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | tr -d .).tar.gz
 # Source0-md5:	5070f941e6b409906b82368060e1d5f3
 Patch0:		%{_orig_name}-gpl.patch
+Patch1:		%{name}-alpha.patch
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
-%{!?_without_dist_kernel:BuildRequires:         kernel-headers }
+%{!?_without_dist_kernel:BuildRequires:	kernel-headers }
 BuildRequires:	%{kgcc_package}
 Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
@@ -47,18 +48,19 @@ Sterownik dla Linuksa SMP do kart sieciowych 3Com 3c90x i 3c980.
 %prep
 %setup -q -n %{_orig_name}-%(echo %{version} | sed -e 's#\.##g')
 %patch0 -p1
+%patch1 -p1
 
 %build
 rm -f %{_orig_name}.o
-%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ \
-    -O2 -DSMP=1 -D__SMP__ \
+%{kgcc} -o %{_orig_name}.o -c %{rpmcflags} -c -DMODULE -D__KERNEL__ \
+	-O2 -DSMP=1 -D__SMP__ \
 %ifarch %{ix86}
-    -DCONFIG_X86_LOCAL_APIC \
+	-DCONFIG_X86_LOCAL_APIC \
 %endif
-    -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+	-Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
 
 mv -f %{_orig_name}.o %{_orig_name}-smp.o
-%{kgcc} -o %{_orig_name}.o -c %{rpmcflags}  -c -DMODULE -D__KERNEL__ -O2 -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
+%{kgcc} -o %{_orig_name}.o -c %{rpmcflags} -c -DMODULE -D__KERNEL__ -O2 -Wall -Wstrict-prototypes -I%{_kernelsrcdir}/include %{_orig_name}.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
