@@ -14,21 +14,6 @@ Version:	1.0.2
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL
 Group:		Base/Kernel
-Group(cs):	Základ/Jádro
-Group(da):	Basal/Kerne
-Group(de):	Grundsätzlich/Kern
-Group(es):	Base/Núcleo
-Group(fr):	Base/Noyau
-Group(is):	Grunnforrit/Kjarninn
-Group(it):	Base/Kernel
-Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
-Group(no):	Basis/Kjerne
-Group(pl):	Podstawowe/J±dro
-Group(pt):	Base/Núcleo
-Group(ru):	âÁÚÁ/ñÄÒÏ
-Group(sl):	Osnova/Jedro
-Group(sv):	Bas/Kärna
-Group(uk):	âÁÚÁ/ñÄÒÏ
 Source0:	http://support.3com.com/infodeli/tools/nic/linux/%{_orig_name}-%(echo %{version} | sed -e 's/\.//g').tar.gz
 URL:		http://support.3com.com/infodeli/tools/nic/linux.htm
 %{!?_without_dist_kernel:BuildRequires:         kernel-headers }
@@ -54,21 +39,6 @@ Release:	%{_rel}@%{_kernel_ver_str}
 %{!?_without_dist_kernel:Conflicts:     kernel-up}
 Obsoletes:	kernel-net-%{_orig_name}
 Group:		Base/Kernel
-Group(cs):	Základ/Jádro
-Group(da):	Basal/Kerne
-Group(de):	Grundsätzlich/Kern
-Group(es):	Base/Núcleo
-Group(fr):	Base/Noyau
-Group(is):	Grunnforrit/Kjarninn
-Group(it):	Base/Kernel
-Group(ja):	¥Ù¡¼¥¹/¥«¡¼¥Í¥ë
-Group(no):	Basis/Kjerne
-Group(pl):	Podstawowe/J±dro
-Group(pt):	Base/Núcleo
-Group(ru):	âÁÚÁ/ñÄÒÏ
-Group(sl):	Osnova/Jedro
-Group(sv):	Bas/Kärna
-Group(uk):	âÁÚÁ/ñÄÒÏ
 
 %description -n kernel-smp-net-%{_orig_name}
 This is 3Com's EtherLink PCI driver for Linux SMP. It provides support
