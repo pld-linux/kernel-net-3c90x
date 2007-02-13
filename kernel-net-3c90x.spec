@@ -5,7 +5,7 @@
 %define		_orig_name	3c90x
 
 Summary:	Linux driver for the 3Com 3C90x and 3C980 Network Interface Cards
-Summary(pl.UTF-8):   Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
+Summary(pl.UTF-8):	Sterownik dla Linuksa do kart sieciowych 3Com 3C90x i 3C980
 Name:		kernel-net-%{_orig_name}
 Version:	1.0.2
 %define	_rel	7
@@ -32,7 +32,7 @@ Sterownik dla Linuksa do kart sieciowych 3Com 3c90x i 3c980.
 
 %package -n kernel-smp-net-%{_orig_name}
 Summary:	Linux SMP driver for the 3Com 3C90x i 3C980 Network Interface Cards
-Summary(pl.UTF-8):   Sterownik dla Linuksa SMP do kart sieciowych 3Com 3C90x i 3C980
+Summary(pl.UTF-8):	Sterownik dla Linuksa SMP do kart sieciowych 3Com 3C90x i 3C980
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 %{!?_without_dist_kernel:%requires_releq_kernel_smp}
