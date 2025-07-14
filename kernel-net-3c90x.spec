@@ -47,7 +47,7 @@ Sterownik dla Linuksa SMP do kart sieciowych 3Com 3c90x i 3c980.
 
 %prep
 %setup -q -n %{_orig_name}-%(echo %{version} | sed -e 's#\.##g')
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 rm -f %{_orig_name}.o
